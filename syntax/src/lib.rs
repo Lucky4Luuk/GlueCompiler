@@ -12,7 +12,6 @@ pub enum SyntaxKind {
     Whitespace,
     KeywordFunc,
     Semicolon,
-    VarType,
     Identifier,
     Number,
     Plus,
@@ -28,12 +27,16 @@ pub enum SyntaxKind {
 
     Error,
     Root,
+
     InfixExpr,
     Literal,
     ParenExpr,
     PrefixExpr,
+
     VariableDef,
     VariableRef,
+    VariableAssignment,
+
     FunctionDeclaration,
     FunctionDeclarationArgs,
     CodeBlock
