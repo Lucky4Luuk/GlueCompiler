@@ -1,0 +1,14 @@
+[package]
+name = "parser"
+version = "0.1.0"
+authors = ["Luuk van Oijen <lazyluuk.channel@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+drop_bomb = "0.1.5"
+rowan = "0.12.6"
+text-size = "1.1.0"
+lexer = {path = "../lexer"}
+syntax = {path = "../syntax"}

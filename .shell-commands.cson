@@ -1,0 +1,30 @@
+commands: [
+	{
+		name: "cargo build"
+		command: "cargo"
+		arguments: [
+			"build"
+		]
+		options:
+			cwd: "{ProjectDir}"
+	}
+	{
+		name: "cargo run"
+		command: "cargo"
+		arguments: [
+			"run"
+		]
+		options:
+			cwd: "{ProjectDir}"
+	}
+	{
+		name: "cargo test"
+		command: "cargo"
+		arguments: [
+			"test"
+			"--workspace"
+		]
+		options:
+			cwd: "{ProjectDir}"
+	}
+]
