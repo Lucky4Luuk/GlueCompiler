@@ -11,6 +11,8 @@ pub type SyntaxElement = rowan::SyntaxElement<GlueLanguage>;
 pub enum SyntaxKind {
     Whitespace,
     KeywordFunc,
+    KeywordReturn,
+    Colon,
     Semicolon,
     Identifier,
     Number,
@@ -39,7 +41,12 @@ pub enum SyntaxKind {
 
     FunctionDeclaration,
     FunctionDeclarationArgs,
-    CodeBlock
+    FunctionDeclarationReturnArgs,
+    FunctionCall,
+    FunctionCallArgs,
+    CodeBlock,
+
+    Return,
 }
 
 impl From<TokenKind> for SyntaxKind {
@@ -48,6 +55,8 @@ impl From<TokenKind> for SyntaxKind {
             TokenKind::Error => Self::Error,
             TokenKind::Whitespace => Self::Whitespace,
             TokenKind::KeywordFunc => Self::KeywordFunc,
+            TokenKind::KeywordReturn => Self::KeywordReturn,
+            TokenKind::Colon => Self::Colon,
             TokenKind::Semicolon => Self::Semicolon,
             TokenKind::Identifier => Self::Identifier,
             TokenKind::Number => Self::Number,

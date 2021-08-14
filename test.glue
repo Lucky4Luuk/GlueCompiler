@@ -1,6 +1,9 @@
+func test_return(int x) : int {
+	return x;
+}
+
 func main() {
 	int b = 8;
 	int a = b;
-	b = 5;
-	int c
+	b = test_return(5);
 }

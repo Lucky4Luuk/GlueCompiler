@@ -6,7 +6,11 @@ use logos::Logos;
 pub enum TokenKind {
     #[token("func")]
     KeywordFunc,
+    #[token("return")]
+    KeywordReturn,
 
+    #[token(":")]
+    Colon,
     #[token(";")]
     Semicolon,
 
@@ -54,6 +58,8 @@ impl fmt::Display for TokenKind {
         f.write_str(match self {
             TokenKind::Whitespace => "whitespace",
             TokenKind::KeywordFunc => "`func`",
+            TokenKind::KeywordReturn => "`return`",
+            TokenKind::Colon => "`:`",
             TokenKind::Semicolon => "`;`",
             TokenKind::Identifier => "identifier",
             TokenKind::Number => "number",

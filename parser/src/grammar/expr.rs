@@ -75,8 +75,8 @@ fn lhs(p: &mut Parser) -> Option<CompletedMarker> {
     let cm = if p.at(TokenKind::Number) {
         literal(p)
     } else if p.at(TokenKind::Identifier) {
-        variable_ref(p)
-    } else if p.at(TokenKind::Minus) {
+        identifier(p)
+    }else if p.at(TokenKind::Minus) {
         prefix_expr(p)
     } else if p.at(TokenKind::LParen) {
         paren_expr(p)
@@ -95,11 +95,30 @@ fn literal(p: &mut Parser) -> CompletedMarker {
     m.complete(p, SyntaxKind::Literal)
 }
 
-fn variable_ref(p: &mut Parser) -> CompletedMarker {
+fn identifier(p: &mut Parser) -> CompletedMarker {
     assert!(p.at(TokenKind::Identifier));
+    let mut kind = SyntaxKind::VariableRef;
     let m = p.start();
     p.bump();
-    m.complete(p, SyntaxKind::VariableRef)
+    if p.at(TokenKind::LParen) {
+        //Function call
+        kind = SyntaxKind::FunctionCall;
+        p.bump();
+        let args = p.start();
+
+        'gather: loop {
+            if p.at(TokenKind::RParen) {
+                args.complete(p, SyntaxKind::FunctionCallArgs);
+                p.bump();
+                break 'gather;
+            }
+
+            if p.at(TokenKind::Identifier) || p.at(TokenKind::Number) {
+                p.bump();
+            }
+        }
+    }
+    m.complete(p, kind)
 }
 
 fn prefix_expr(p: &mut Parser) -> CompletedMarker {

@@ -23,30 +23,62 @@ fn func_decl(p: &mut Parser) -> CompletedMarker {
     p.expect(TokenKind::Identifier);
 
     func_decl_args(p);
+    func_return_args(p);
 
     m.complete(p, SyntaxKind::FunctionDeclaration)
 }
 
-fn func_decl_args(p: &mut Parser) -> Option<CompletedMarker> {
+fn func_decl_args(p: &mut Parser) {
     if p.at(TokenKind::LParen) {
-        let args = p.start();
         p.bump();
-        'search: loop {
+        let args = p.start();
+        'gather: loop {
             if p.at(TokenKind::RParen) {
+                args.complete(p, SyntaxKind::FunctionDeclarationArgs);
                 p.bump();
-                break 'search;
+                break 'gather;
             }
 
             if p.at_end() {
                 p.error();
-                break 'search;
+                break 'gather;
             }
 
-            //TODO: Gather arguments
+            if p.at(TokenKind::Identifier) {
+                p.bump();
+                p.expect(TokenKind::Identifier);
+            }
         }
-        Some(args.complete(p, SyntaxKind::FunctionDeclarationArgs))
     } else {
         p.error();
-        None
+    }
+}
+
+fn func_return_args(p: &mut Parser) {
+    if p.at(TokenKind::Colon) {
+        p.bump();
+        let ret_args = p.start();
+
+        if p.at(TokenKind::LParen) {
+            //Multiple returns
+            p.bump();
+            'gather: loop {
+                if p.at(TokenKind::RParen) {
+                    ret_args.complete(p, SyntaxKind::FunctionDeclarationReturnArgs);
+                    break 'gather;
+                }
+
+                if p.at(TokenKind::Identifier) { //Type
+                    p.bump();
+                    p.expect(TokenKind::Identifier); //Name
+                }
+            }
+        } else if p.at(TokenKind::Identifier) {
+            //Single return
+            p.bump();
+            ret_args.complete(p, SyntaxKind::FunctionDeclarationReturnArgs);
+        } else {
+            p.error();
+        }
     }
 }

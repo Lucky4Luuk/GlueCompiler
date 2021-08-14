@@ -4,9 +4,24 @@ use lexer::TokenKind;
 pub(super) fn stmt(p: &mut Parser) -> Option<CompletedMarker> {
     if p.at(TokenKind::Identifier) {
         Some(variable(p))
+    } else if p.at(TokenKind::KeywordReturn) {
+        Some(return_stmt(p))
     } else {
         expr::expr(p)
     }
+}
+
+fn return_stmt(p: &mut Parser) -> CompletedMarker {
+    assert!(p.at(TokenKind::KeywordReturn));
+    let m = p.start();
+    p.bump();
+
+    if p.at(TokenKind::Identifier) || p.at(TokenKind::Number) {
+        p.bump();
+    }
+
+    p.expect(TokenKind::Semicolon);
+    m.complete(p, SyntaxKind::Return)
 }
 
 fn variable(p: &mut Parser) -> CompletedMarker {
