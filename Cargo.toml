@@ -10,8 +10,8 @@ edition = "2018"
 lexer = { path = "lexer" }
 syntax = { path = "syntax" }
 parser = { path = "parser" }
-# ast = { path = "ast" }
-# hir = {path = "hir"}
+ast = { path = "ast" }
+hir = { path = "hir" }
 
 [workspace]
-members = ["lexer", "syntax", "parser"]
+members = ["lexer", "syntax", "parser", "ast", "hir"]
