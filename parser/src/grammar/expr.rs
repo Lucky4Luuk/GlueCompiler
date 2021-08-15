@@ -1,3 +1,4 @@
+use super::code_block::code_block;
 use super::*;
 use lexer::TokenKind;
 
@@ -30,7 +31,11 @@ impl BinaryOp {
 }
 
 pub(super) fn expr(p: &mut Parser) -> Option<CompletedMarker> {
-    expr_binding_power(p, 0)
+    if p.at(TokenKind::LBrace) {
+        code_block(p)
+    } else {
+        expr_binding_power(p, 0)
+    }
 }
 
 fn expr_binding_power(p: &mut Parser, minimum_binding_power: u8) -> Option<CompletedMarker> {

@@ -1,9 +1,19 @@
+int x = 5;
+
 func test_return(int x) : int {
 	return x;
+}
+
+func multi_return() : (int a, int b, int c) {
+	a = 1;
+	b = 2;
+	c = 3;
+	return;
 }
 
 func main() {
 	int b = 8;
 	int a = b;
 	b = test_return(5);
+	return b;
 }

@@ -10,12 +10,17 @@ pub type SyntaxElement = rowan::SyntaxElement<GlueLanguage>;
 #[derive(Debug, Copy, Clone, PartialEq, FromPrimitive, ToPrimitive)]
 pub enum SyntaxKind {
     Whitespace,
+
     KeywordFunc,
     KeywordReturn,
+
     Colon,
     Semicolon,
+    Comma,
+
     Identifier,
     Number,
+    
     Plus,
     Minus,
     Asterix,
@@ -58,6 +63,7 @@ impl From<TokenKind> for SyntaxKind {
             TokenKind::KeywordReturn => Self::KeywordReturn,
             TokenKind::Colon => Self::Colon,
             TokenKind::Semicolon => Self::Semicolon,
+            TokenKind::Comma => Self::Comma,
             TokenKind::Identifier => Self::Identifier,
             TokenKind::Number => Self::Number,
             TokenKind::Plus => Self::Plus,

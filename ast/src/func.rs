@@ -1,11 +1,11 @@
-use syntax::{SyntaxNode, SyntaxToken, SyntaxKind};
+use syntax::{SyntaxNode, SyntaxToken, SyntaxElement, SyntaxKind};
 
-use crate::expr::Expr;
+use crate::code_block::CodeBlock;
 
 #[derive(Debug)]
-pub struct VariableDef(pub SyntaxNode);
+pub struct Func(SyntaxNode);
 
-impl VariableDef {
+impl Func {
     fn children_of_type(&self, kind: SyntaxKind) -> Vec<SyntaxNode> {
         self.0.children().filter_map(|node| if node.kind() == SyntaxKind::Identifier { Some(node) } else { None }).collect::<Vec<_>>()
     }
@@ -21,21 +21,27 @@ impl VariableDef {
         children
     }
 
-    pub fn kind(&self) -> Option<SyntaxToken> {
-        self.0.first_token() //The variable type is always the first token
-    }
-
-    pub fn name(&self) -> Option<SyntaxToken> {
-        //The variable name is always the second token of type identifier (there might be whitespace)
-        let idents = self.tokens_of_type(SyntaxKind::Identifier);
-        if idents.len() > 1 {
-            Some(idents[1].clone())
+    pub fn cast(node: SyntaxNode) -> Option<Self> {
+        if node.kind() == SyntaxKind::FunctionDeclaration {
+            Some(Self(node))
         } else {
             None
         }
     }
 
-    pub fn value(&self) -> Option<Expr> {
-        self.0.children().find_map(Expr::cast)
+    pub fn name(&self) -> Option<SyntaxToken> {
+        let idents = self.tokens_of_type(SyntaxKind::Identifier);
+        let ident_count = idents.len();
+        if ident_count > 1 {
+            Some(idents[1].clone())
+        } else if ident_count > 0 {
+            Some(idents[0].clone())
+        } else {
+            None
+        }
+    }
+
+    pub fn code_blocks(&self) -> impl Iterator<Item = CodeBlock> {
+        self.0.children().filter_map(CodeBlock::cast)
     }
 }

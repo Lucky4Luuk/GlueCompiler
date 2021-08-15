@@ -96,3 +96,9 @@ impl VariableRef {
 
 #[derive(Debug)]
 pub struct FunctionCall(SyntaxNode);
+
+impl FunctionCall {
+    pub fn name(&self) -> String {
+        self.0.first_token().unwrap().text().to_string()
+    }
+}

@@ -64,12 +64,19 @@ fn func_return_args(p: &mut Parser) {
             p.bump();
             'gather: loop {
                 if p.at(TokenKind::RParen) {
+                    p.bump();
                     ret_args.complete(p, SyntaxKind::FunctionDeclarationReturnArgs);
                     break 'gather;
                 }
 
                 if p.at(TokenKind::Identifier) { //Type
                     p.bump();
+                    p.expect(TokenKind::Identifier); //Name
+                }
+
+                if p.at(TokenKind::Comma) {
+                    p.bump();
+                    p.expect(TokenKind::Identifier); //Type
                     p.expect(TokenKind::Identifier); //Name
                 }
             }

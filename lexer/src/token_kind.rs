@@ -13,6 +13,8 @@ pub enum TokenKind {
     Colon,
     #[token(";")]
     Semicolon,
+    #[token(",")]
+    Comma,
 
     // #[regex(r#"/[*](~(.*[*]/.*))[*]/"#)]
     // CComment,
@@ -61,6 +63,7 @@ impl fmt::Display for TokenKind {
             TokenKind::KeywordReturn => "`return`",
             TokenKind::Colon => "`:`",
             TokenKind::Semicolon => "`;`",
+            TokenKind::Comma => ",",
             TokenKind::Identifier => "identifier",
             TokenKind::Number => "number",
             TokenKind::Plus => "`+`",
