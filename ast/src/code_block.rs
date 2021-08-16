@@ -1,6 +1,8 @@
 use syntax::{SyntaxNode, SyntaxToken, SyntaxElement, SyntaxKind};
 
-#[derive(Debug)]
+use crate::stmt::Stmt;
+
+#[derive(Debug, Clone)]
 pub struct CodeBlock(SyntaxNode);
 
 impl CodeBlock {
@@ -10,5 +12,9 @@ impl CodeBlock {
         } else {
             None
         }
+    }
+
+    pub fn stmts(&self) -> impl Iterator<Item = Stmt> {
+        self.0.children().filter_map(Stmt::cast)
     }
 }

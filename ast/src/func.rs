@@ -6,10 +6,6 @@ use crate::code_block::CodeBlock;
 pub struct Func(SyntaxNode);
 
 impl Func {
-    fn children_of_type(&self, kind: SyntaxKind) -> Vec<SyntaxNode> {
-        self.0.children().filter_map(|node| if node.kind() == SyntaxKind::Identifier { Some(node) } else { None }).collect::<Vec<_>>()
-    }
-
     //TODO: This function is not very neat.
     fn tokens_of_type(&self, kind: SyntaxKind) -> Vec<SyntaxToken> {
         let mut children: Vec<SyntaxToken> = Vec::new();
@@ -41,7 +37,12 @@ impl Func {
         }
     }
 
-    pub fn code_blocks(&self) -> impl Iterator<Item = CodeBlock> {
-        self.0.children().filter_map(CodeBlock::cast)
+    pub fn code_block(&self) -> Option<CodeBlock> {
+        let code_blocks = self.0.children().filter_map(CodeBlock::cast).collect::<Vec<_>>();
+        if code_blocks.len() > 0 {
+            Some(code_blocks[0].clone())
+        } else {
+            None
+        }
     }
 }

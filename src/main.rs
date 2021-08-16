@@ -20,5 +20,7 @@ fn main() {
     //     None
     // }).collect::<Vec<_>>();
 
-    dbg!(hir::lower(ast_root).collect::<Vec<_>>());
+    let hir_root = hir::lower(ast_root);
+    dbg!(hir_root.statements);
+    dbg!(hir_root.functions);
 }

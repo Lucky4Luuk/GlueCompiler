@@ -24,6 +24,7 @@ fn func_decl(p: &mut Parser) -> CompletedMarker {
 
     func_decl_args(p);
     func_return_args(p);
+    code_block::code_block(p);
 
     m.complete(p, SyntaxKind::FunctionDeclaration)
 }
