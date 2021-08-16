@@ -3,13 +3,7 @@ use lexer::TokenKind;
 
 pub(super) fn func(p: &mut Parser) -> Option<CompletedMarker> {
     if p.at(TokenKind::KeywordFunc) {
-        func_decl(p);
-        if p.at(TokenKind::LBrace) {
-            Some(code_block::code_block_parse(p))
-        } else {
-            p.error();
-            None
-        }
+        Some(func_decl(p))
     } else {
         code_block::code_block(p)
     }
