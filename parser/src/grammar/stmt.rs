@@ -16,9 +16,7 @@ fn return_stmt(p: &mut Parser) -> CompletedMarker {
     let m = p.start();
     p.bump();
 
-    if p.at(TokenKind::Identifier) || p.at(TokenKind::Number) {
-        p.bump();
-    }
+    expr::expr(p);
 
     p.expect(TokenKind::Semicolon);
     m.complete(p, SyntaxKind::Return)

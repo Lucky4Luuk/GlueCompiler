@@ -1,3 +1,4 @@
-func main() : u32 {
-	int b = 5;
+func main() : i32 {
+	i32 b = 5;
+	return b;
 }

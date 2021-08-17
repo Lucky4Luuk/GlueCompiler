@@ -5,12 +5,14 @@ pub mod expr;
 pub mod stmt;
 pub mod code_block;
 pub mod func;
+pub mod return_stmt;
 
 pub use variable::*;
 pub use expr::*;
 pub use stmt::*;
 pub use code_block::*;
 pub use func::*;
+pub use return_stmt::*;
 
 #[derive(Debug)]
 pub struct Root(SyntaxNode);
