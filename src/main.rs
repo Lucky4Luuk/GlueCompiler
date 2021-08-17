@@ -1,7 +1,7 @@
 use parser::parse;
 
 fn main() {
-    let code = include_str!("../return.glue");
+    let code = include_str!("../func.glue");
     let root = parse(code);
     println!("Debug tree:\n{}\n", root.debug_tree());
 

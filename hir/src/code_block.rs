@@ -6,11 +6,11 @@ pub struct CodeBlock {
 }
 
 impl CodeBlock {
-    pub fn lower(ast: ast::CodeBlock) -> Option<Self> {
+    pub fn lower(ast: ast::CodeBlock) -> Self {
         let stmts = ast.stmts().filter_map(Stmt::lower).collect::<Vec<_>>();
 
-        Some(Self {
+        Self {
             stmts: stmts,
-        })
+        }
     }
 }

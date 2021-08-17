@@ -65,7 +65,7 @@ impl Func {
         let args = if args.is_some() { FuncArgs::lower(args?) } else { None };
         let ret_args = ast.ret_args();
         let ret_args = if ret_args.is_some() { FuncReturnArgs::lower(ret_args?) } else { None };
-        let code_block = CodeBlock::lower(ast.code_block()?)?;
+        let code_block = CodeBlock::lower(ast.code_block()?);
 
         Some(Self {
             name: name,

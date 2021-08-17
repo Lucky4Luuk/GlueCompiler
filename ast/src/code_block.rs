@@ -3,7 +3,7 @@ use syntax::{SyntaxNode, SyntaxToken, SyntaxElement, SyntaxKind};
 use crate::stmt::Stmt;
 
 #[derive(Debug, Clone)]
-pub struct CodeBlock(SyntaxNode);
+pub struct CodeBlock(pub SyntaxNode);
 
 impl CodeBlock {
     pub fn cast(node: SyntaxNode) -> Option<Self> {
