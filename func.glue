@@ -1,12 +1,3 @@
-u32 a = 5;
-
-func main(u32 a) {
+func main() : u32 {
 	int b = 5;
-}
-
-func with_cblock() {
-	int a = 5;
-	{
-		int b = a;
-	}
 }

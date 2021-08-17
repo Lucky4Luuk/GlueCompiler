@@ -62,7 +62,16 @@ impl Func {
     pub fn lower(ast: ast::Func) -> Option<Self> {
         let name = ast.name()?.text().to_string();
         let args = ast.args();
-        let args = if args.is_some() { FuncArgs::lower(args?) } else { None };
+        let args = if args.is_some() {
+            let unwrapped_args = args?;
+            if unwrapped_args.args().len() > 0 {
+                FuncArgs::lower(unwrapped_args)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
         let ret_args = ast.ret_args();
         let ret_args = if ret_args.is_some() { FuncReturnArgs::lower(ret_args?) } else { None };
         let code_block = CodeBlock::lower(ast.code_block()?);

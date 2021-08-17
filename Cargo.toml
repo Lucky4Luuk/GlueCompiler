@@ -12,6 +12,7 @@ syntax = { path = "syntax" }
 parser = { path = "parser" }
 ast = { path = "ast" }
 hir = { path = "hir" }
+codegen = { path = "codegen" }
 
 [workspace]
-members = ["lexer", "syntax", "parser", "ast", "hir"]
+members = ["lexer", "syntax", "parser", "ast", "hir", "codegen"]

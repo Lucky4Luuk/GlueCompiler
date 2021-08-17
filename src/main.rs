@@ -3,7 +3,7 @@ use parser::parse;
 fn main() {
     let code = include_str!("../func.glue");
     let root = parse(code);
-    println!("Debug tree:\n{}\n", root.debug_tree());
+    // println!("Debug tree:\n{}\n", root.debug_tree());
 
     let ast_root = ast::Root::cast(root.syntax()).expect("Failed to parse!");
     // dbg!(ast_root.funcs().collect::<Vec<_>>());
@@ -21,6 +21,12 @@ fn main() {
     // }).collect::<Vec<_>>();
 
     let hir_root = hir::lower(ast_root);
-    dbg!(hir_root.statements);
-    dbg!(hir_root.functions);
+    // dbg!(hir_root.statements);
+    // dbg!(hir_root.functions);
+
+    let compile_target = codegen::CompileTarget {
+        call_conv: codegen::CallConv::WindowsFastcall,
+    };
+
+    codegen::compile(compile_target, hir_root);
 }
