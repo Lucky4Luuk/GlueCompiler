@@ -9,7 +9,7 @@ use cranelift::frontend::{FunctionBuilder, FunctionBuilderContext, Variable};
 use super::stmt::build_stmt;
 use super::variable::{VariableMap, temp_func_name_map, temp_type_map};
 
-pub fn build_func(call_conv: CallConv, hir_func: &hir::func::Func) {
+pub fn build_func(call_conv: CallConv, hir_func: &hir::func::Func) -> Function {
     use hir::func::FuncReturnArgs;
 
     let mut sig = Signature::new(call_conv);
@@ -68,4 +68,5 @@ pub fn build_func(call_conv: CallConv, hir_func: &hir::func::Func) {
     if let Err(errors) = res {
         panic!("{}", errors);
     }
+    func
 }
