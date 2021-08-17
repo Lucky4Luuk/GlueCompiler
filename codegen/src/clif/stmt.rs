@@ -22,7 +22,7 @@ pub fn build_stmt(builder: &mut FunctionBuilder, hir_stmt: &Stmt, var_map: &mut 
             false
         },
         Stmt::Return(expr) => {
-            let ret_val = builder.use_var(var_map.get_var("b").expect("Unreachable!"));
+            let ret_val = builder.use_var(var_map.get_var("b").expect("Unreachable!")); //TODO: HARDCODED
             builder.ins().return_(&[ret_val]);
             true
         }
