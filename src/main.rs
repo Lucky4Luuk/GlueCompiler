@@ -24,9 +24,5 @@ fn main() {
     // dbg!(hir_root.statements);
     // dbg!(hir_root.functions);
 
-    let compile_target = codegen::CompileTarget {
-        call_conv: codegen::CallConv::WindowsFastcall,
-    };
-
-    codegen::compile(compile_target, hir_root);
+    codegen::compile(codegen::Triple::host(), hir_root);
 }

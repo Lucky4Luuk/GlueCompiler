@@ -1,20 +1,40 @@
-pub use cranelift::codegen::isa::CallConv; //Re-export for use in the frontend
+use cranelift::prelude::settings;
+use cranelift::prelude::isa::{self, TargetIsa, CallConv};
+use cranelift::prelude::Configurable;
+pub use target_lexicon::Triple; //Re-export for use in the frontend
 
 mod clif;
 
-#[derive(Debug)]
 pub struct CompileTarget {
-    pub call_conv: CallConv, //TODO: Can also be chosen with CallConv::triple_default (see https://docs.rs/target-lexicon/0.12.1/target_lexicon/struct.Triple.html)
+    pub triple: Triple,
+    pub isa: Box<dyn TargetIsa>,
+    pub call_conv: CallConv,
 }
 
 impl CompileTarget {
-    pub fn from_triple() -> Self {
-        todo!();
+    pub fn from_triple(flags: settings::Flags, triple: Triple) -> Self {
+        let isa = match cranelift::codegen::isa::lookup(triple.clone()) {
+            Err(_) => {
+                panic!("The target ISA is not available!")
+            }
+            Ok(mut isa_builder) => {
+                isa_builder.set("use_popcnt", "on");
+                isa_builder.finish(flags.clone())
+            }
+        };
+        Self {
+            call_conv: CallConv::triple_default(&triple),
+            isa: isa,
+            triple: triple,
+        }
     }
 }
 
 // impl TargetIsa for CompileTarget {}
 
-pub fn compile(target: CompileTarget, hir: hir::Root) {
-    let clif_code = clif::gen(target, hir);
+pub fn compile(triple: Triple, hir: hir::Root) {
+    let flags = settings::Flags::new(settings::builder());
+
+    let target = CompileTarget::from_triple(flags.clone(), triple);
+    let clif_code = clif::gen(flags, target, hir);
 }

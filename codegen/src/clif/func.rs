@@ -1,15 +1,15 @@
 use cranelift::codegen::entity::EntityRef;
 use cranelift::codegen::ir::types::*;
 use cranelift::codegen::ir::{AbiParam, ExternalName, Function, InstBuilder, Signature};
-use cranelift::codegen::isa::CallConv;
 use cranelift::codegen::settings;
+use cranelift::codegen::isa::CallConv;
 use cranelift::codegen::verifier::verify_function;
 use cranelift::frontend::{FunctionBuilder, FunctionBuilderContext, Variable};
 
 use super::stmt::build_stmt;
 use super::variable::{VariableMap, temp_func_name_map, temp_type_map};
 
-pub fn build_func(call_conv: CallConv, hir_func: &hir::func::Func) -> Function {
+pub fn build_func(flags: settings::Flags, call_conv: CallConv, hir_func: &hir::func::Func) -> Function {
     use hir::func::FuncReturnArgs;
 
     let mut sig = Signature::new(call_conv);
@@ -62,7 +62,6 @@ pub fn build_func(call_conv: CallConv, hir_func: &hir::func::Func) -> Function {
         builder.finalize();
     }
 
-    let flags = settings::Flags::new(settings::builder());
     let res = verify_function(&func, &flags);
     println!("{}", func.display(None));
     if let Err(errors) = res {
