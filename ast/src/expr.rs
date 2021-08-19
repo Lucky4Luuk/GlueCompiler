@@ -58,7 +58,7 @@ pub struct Literal(SyntaxNode);
 impl Literal {
     pub fn parse(&self) -> LiteralType {
         let first_token = self.0.first_token().unwrap();
-        let as_text = first_token.text();
+        let as_text = first_token.text().replace("_", "");
         if as_text.contains("u64") {
             LiteralType::U64(as_text.to_string().replace("u64", "").parse::<u64>().expect("Literal is not u64!"))
         } else if as_text.contains("u32") {

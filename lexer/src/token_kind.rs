@@ -21,7 +21,7 @@ pub enum TokenKind {
     #[regex(r#"//[^\n]*"#)]
     CPPComment,
 
-    #[regex("[0-9]+[uif][0-9]+")]
+    #[regex("[0-9]+_*[uif][0-9]+")]
     Literal,
 
     #[regex(r#"\+"#)]

@@ -1,5 +1,5 @@
 func main() : i32 {
-	i32 a = 2i32;
-	i32 b = 5i32;
+	i32 a = 2_i32;
+	i32 b = 5_i32;
 	return a + b;
 }
