@@ -17,8 +17,8 @@ impl CompileTarget {
             Err(_) => {
                 panic!("The target ISA is not available!")
             }
-            Ok(mut isa_builder) => {
-                isa_builder.set("use_popcnt", "on");
+            Ok(isa_builder) => {
+                // isa_builder.set("use_popcnt", "on");
                 isa_builder.finish(flags.clone())
             }
         };
@@ -30,11 +30,9 @@ impl CompileTarget {
     }
 }
 
-// impl TargetIsa for CompileTarget {}
-
 pub fn compile(triple: Triple, hir: hir::Root) {
     let flags = settings::Flags::new(settings::builder());
 
     let target = CompileTarget::from_triple(flags.clone(), triple);
-    let clif_code = clif::gen(flags, target, hir);
+    let clif_code = clif::gen("result", flags, target, hir);
 }

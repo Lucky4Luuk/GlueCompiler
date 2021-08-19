@@ -7,6 +7,7 @@ edition = "2018"
 
 [dependencies]
 hir = { path = "../hir" }
+common = { path = "../common" }
 
 cranelift = "0.76.0"
 cranelift-module = "*" #Any version that works with cranelift-object

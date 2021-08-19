@@ -21,8 +21,8 @@ pub enum TokenKind {
     #[regex(r#"//[^\n]*"#)]
     CPPComment,
 
-    #[regex("[0-9]+")]
-    Number,
+    #[regex("[0-9]+[uif][0-9]+")]
+    Literal,
 
     #[regex(r#"\+"#)]
     Plus,
@@ -65,7 +65,7 @@ impl fmt::Display for TokenKind {
             TokenKind::Semicolon => "`;`",
             TokenKind::Comma => ",",
             TokenKind::Identifier => "identifier",
-            TokenKind::Number => "number",
+            TokenKind::Literal => "literal",
             TokenKind::Plus => "`+`",
             TokenKind::Minus => "`-`",
             TokenKind::Asterix => "`*`",

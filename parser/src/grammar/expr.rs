@@ -77,7 +77,7 @@ fn expr_binding_power(p: &mut Parser, minimum_binding_power: u8) -> Option<Compl
 }
 
 fn lhs(p: &mut Parser) -> Option<CompletedMarker> {
-    let cm = if p.at(TokenKind::Number) {
+    let cm = if p.at(TokenKind::Literal) {
         literal(p)
     } else if p.at(TokenKind::Identifier) {
         identifier(p)
@@ -94,7 +94,7 @@ fn lhs(p: &mut Parser) -> Option<CompletedMarker> {
 }
 
 fn literal(p: &mut Parser) -> CompletedMarker {
-    assert!(p.at(TokenKind::Number));
+    assert!(p.at(TokenKind::Literal));
     let m = p.start();
     p.bump();
     m.complete(p, SyntaxKind::Literal)
@@ -118,7 +118,7 @@ fn identifier(p: &mut Parser) -> CompletedMarker {
                 break 'gather;
             }
 
-            if p.at(TokenKind::Identifier) || p.at(TokenKind::Number) {
+            if p.at(TokenKind::Identifier) || p.at(TokenKind::Literal) {
                 p.bump();
             }
         }

@@ -1,10 +1,11 @@
 use syntax::SyntaxKind;
+use common::LiteralType;
 
 #[derive(Debug)]
 pub enum Expr {
     Missing,
     Binary { op: BinaryOp, lhs: Box<Self>, rhs: Box<Self> },
-    Literal { n: u64 },
+    Literal { n: LiteralType },
     Unary { op: UnaryOp, expr: Box<Self> },
     VariableRef { var: String },
     FunctionCall { func: String },

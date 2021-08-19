@@ -19,8 +19,7 @@ pub enum SyntaxKind {
     Comma,
 
     Identifier,
-    Number,
-    
+
     Plus,
     Minus,
     Asterix,
@@ -65,7 +64,7 @@ impl From<TokenKind> for SyntaxKind {
             TokenKind::Semicolon => Self::Semicolon,
             TokenKind::Comma => Self::Comma,
             TokenKind::Identifier => Self::Identifier,
-            TokenKind::Number => Self::Number,
+            TokenKind::Literal => Self::Literal,
             TokenKind::Plus => Self::Plus,
             TokenKind::Minus => Self::Minus,
             TokenKind::Asterix => Self::Asterix,
