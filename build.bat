@@ -1,2 +1,2 @@
 cargo run
-ld result.o
+ld result.o -o output.exe
