@@ -14,7 +14,8 @@ pub fn build_stmt(builder: &mut FunctionBuilder, hir_stmt: &Stmt, var_map: &mut 
             builder.declare_var(var_map.get_var(name).expect("Unreachable!"), var_type);
 
             //Define the variable in the block
-            let crane_value = builder.ins().iconst(I32, 5); //TODO: HARDCODED
+            // let crane_value = builder.ins().iconst(I32, 5); //TODO: HARDCODED
+            let crane_value = super::expr::build_expr(builder, value, var_map);
             builder.def_var(var_map.get_var(name).expect("Unreachable!"), crane_value);
 
             println!("Variable definition: `{} {} = {:?}`", type_string, name, value);

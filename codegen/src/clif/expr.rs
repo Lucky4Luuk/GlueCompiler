@@ -34,6 +34,7 @@ pub fn build_expr(builder: &mut FunctionBuilder, hir_expr: &Expr, var_map: &mut 
                 BinaryOp::Div => panic!("Integer division not supported yet!")
             }
         },
+        Expr::Missing => panic!("Expression is missing!"),
         _ => panic!("Expr case not handled yet!")
     }
 }
