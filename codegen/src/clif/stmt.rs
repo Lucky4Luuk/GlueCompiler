@@ -21,8 +21,9 @@ pub fn build_stmt(builder: &mut FunctionBuilder, hir_stmt: &Stmt, var_map: &mut 
 
             false
         },
-        Stmt::Return(expr) => {
-            let ret_val = builder.use_var(var_map.get_var("b").expect("Unreachable!")); //TODO: HARDCODED
+        Stmt::Return(hir_expr) => {
+            // let ret_val = builder.use_var(var_map.get_var("b").expect("Unreachable!")); //TODO: HARDCODED
+            let ret_val = super::expr::build_expr(builder, hir_expr, var_map);
             builder.ins().return_(&[ret_val]);
             true
         }
