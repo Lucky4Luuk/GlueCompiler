@@ -2,12 +2,15 @@ use cranelift::prelude::types::*;
 use cranelift::prelude::FunctionBuilder;
 use cranelift::prelude::InstBuilder;
 
+use cranelift_object::ObjectModule;
+use cranelift_module::{Module, FuncOrDataId};
+
 use hir::expr::{BinaryOp, Expr};
 use common::LiteralType;
 
 use super::variable::{VariableMap, temp_type_map};
 
-pub fn build_expr(builder: &mut FunctionBuilder, hir_expr: &Expr, var_map: &mut VariableMap) -> cranelift::prelude::Value {
+pub fn build_expr(builder: &mut FunctionBuilder, hir_expr: &Expr, var_map: &mut VariableMap, module: &ObjectModule) -> cranelift::prelude::Value {
     match hir_expr {
         Expr::Literal { n } => {
             match n {
@@ -22,8 +25,8 @@ pub fn build_expr(builder: &mut FunctionBuilder, hir_expr: &Expr, var_map: &mut 
             builder.use_var(var_map.get_var(&var).expect("Variable has not been declared yet!"))
         },
         Expr::Binary { op, lhs, rhs } => {
-            let arg1 = build_expr(builder, lhs, var_map);
-            let arg2 = build_expr(builder, rhs, var_map);
+            let arg1 = build_expr(builder, lhs, var_map, module);
+            let arg2 = build_expr(builder, rhs, var_map, module);
 
             //TODO: Only handles integer math
             match op {
@@ -33,6 +36,16 @@ pub fn build_expr(builder: &mut FunctionBuilder, hir_expr: &Expr, var_map: &mut 
                 // BinaryOp::Div => builder.ins().idiv(arg1, arg2),
                 BinaryOp::Div => panic!("Integer division not supported yet!")
             }
+        },
+        Expr::FunctionCall { func } => {
+            let error_msg = format!("No function named `{}`", func);
+            let func_id = match module.get_name(func).expect(&error_msg) {
+                FuncOrDataId::Func(id) => id,
+                _ => panic!(error_msg),
+            };
+            let func_ref = module.declare_func_in_func(func_id, builder.func);
+            let inst = builder.ins().call(func_ref, &[]);
+            todo!();
         },
         Expr::Missing => panic!("Expression is missing!"),
         _ => panic!("Expr case not handled yet!")
