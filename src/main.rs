@@ -24,5 +24,7 @@ fn main() {
     // dbg!(hir_root.statements);
     // dbg!(hir_root.functions);
 
-    codegen::compile(codegen::Triple::host(), hir_root);
+    // codegen::compile(codegen::Triple::host(), hir_root);
+    let host = target_lexicon::Triple::host();
+    codegen_c::compile(format!("{}", host), codegen_c::Tool::GCC, hir_root);
 }

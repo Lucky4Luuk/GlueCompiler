@@ -8,7 +8,7 @@ pub enum Expr {
     Literal { n: LiteralType },
     Unary { op: UnaryOp, expr: Box<Self> },
     VariableRef { var: String },
-    FunctionCall { func: String },
+    FunctionCall { func: String, args: Vec<Expr> },
 }
 
 impl Expr {
@@ -20,7 +20,14 @@ impl Expr {
                 ast::Expr::ParenExpr(ast) => Expr::lower(ast.expr()),
                 ast::Expr::UnaryExpr(ast) => Self::lower_unary(ast),
                 ast::Expr::VariableRef(ast) => Self::VariableRef { var: ast.name() },
-                ast::Expr::FunctionCall(ast) => Self::FunctionCall { func: ast.name() },
+                ast::Expr::FunctionCall(ast) => {
+                    let args_raw = ast.args();
+                    let mut args = Vec::new();
+                    for arg_raw in args_raw {
+                        args.push(Expr::lower(Some(arg_raw)));
+                    }
+                    Self::FunctionCall { func: ast.name(), args: args }
+                },
             }
         } else {
             Self::Missing

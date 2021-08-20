@@ -43,6 +43,14 @@ fn func_decl_args(p: &mut Parser) {
                 p.bump();
                 p.expect(TokenKind::Identifier);
             }
+
+            if p.at(TokenKind::Comma) {
+                p.bump();
+                p.expect(TokenKind::Identifier); //Type
+                p.expect(TokenKind::Identifier); //Name
+            }
+
+            //TODO: Hangs if it encounters a tokenkind it does not have a case for
         }
     } else {
         p.error();
@@ -64,6 +72,10 @@ fn func_return_args(p: &mut Parser) {
                     break 'gather;
                 }
 
+                if p.at_end() {
+                    p.error();
+                }
+
                 if p.at(TokenKind::Identifier) { //Type
                     p.bump();
                     p.expect(TokenKind::Identifier); //Name
@@ -74,6 +86,8 @@ fn func_return_args(p: &mut Parser) {
                     p.expect(TokenKind::Identifier); //Type
                     p.expect(TokenKind::Identifier); //Name
                 }
+
+                //TODO: Hangs if it encounters a tokenkind it does not have a case for
             }
         } else if p.at(TokenKind::Identifier) {
             //Single return

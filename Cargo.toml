@@ -12,7 +12,10 @@ syntax = { path = "syntax" }
 parser = { path = "parser" }
 ast = { path = "ast" }
 hir = { path = "hir" }
-codegen = { path = "codegen" }
+# codegen = { path = "codegen" }
+codegen_c = { path = "codegen_c" }
+
+target-lexicon = "*"
 
 [workspace]
-members = ["lexer", "syntax", "parser", "ast", "hir", "codegen"]
+members = ["lexer", "syntax", "parser", "ast", "hir", "codegen", "codegen_c"]

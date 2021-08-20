@@ -120,10 +120,33 @@ impl VariableRef {
 }
 
 #[derive(Debug)]
+pub struct FunctionCallArgs(SyntaxNode);
+
+impl FunctionCallArgs {
+    pub fn cast(node: SyntaxNode) -> Option<Self> {
+        match node.kind() {
+            SyntaxKind::FunctionCallArgs => Some(Self(node)),
+            _ => None,
+        }
+    }
+
+    pub fn args(&self) -> impl Iterator<Item = Expr> {
+        self.0.children().filter_map(Expr::cast)
+    }
+}
+
+#[derive(Debug)]
 pub struct FunctionCall(SyntaxNode);
 
 impl FunctionCall {
     pub fn name(&self) -> String {
         self.0.first_token().unwrap().text().to_string()
+    }
+
+    pub fn args(&self) -> Vec<Expr> {
+        match self.0.children().find_map(FunctionCallArgs::cast) {
+            Some(fca) => fca.args().collect::<Vec<_>>(),
+            None => Vec::new(),
+        }
     }
 }

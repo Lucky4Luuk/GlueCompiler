@@ -1,9 +1,9 @@
-func test() : i32 {
-	return 5_i32;
+func test(i32 x) : i32 {
+	return x;
 }
 
 func main() : i32 {
 	i32 a = 2_i32;
-	i32 b = test();
-	return a + b;
+	i32 b = test(5_i32);
+	return a+b;
 }

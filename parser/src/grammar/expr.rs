@@ -118,8 +118,16 @@ fn identifier(p: &mut Parser) -> CompletedMarker {
                 break 'gather;
             }
 
-            if p.at(TokenKind::Identifier) || p.at(TokenKind::Literal) {
+            if p.at(TokenKind::Identifier) {
+                let tmp = p.start();
                 p.bump();
+                tmp.complete(p, SyntaxKind::Identifier);
+            }
+
+            if p.at(TokenKind::Literal) {
+                let tmp = p.start();
+                p.bump();
+                tmp.complete(p, SyntaxKind::Literal);
             }
         }
     }
